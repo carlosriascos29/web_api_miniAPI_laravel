@@ -7,13 +7,204 @@
 	},
 	"item": [
 		{
+			"name": "Usuarios y Accesos",
+			"item": [
+				{
+					"name": "Iniciar Sesion",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"maria@example.com\",\r\n    \"password\": \"!New_password1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Usuarios",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Maria García\",\r\n    \"email\": \"carlosriascos29@gmail.com\",\r\n    \"password\": \"Password123\",\r\n    \"password_confirmation\": \"Password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/register/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"register",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cambiar Contraseña",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "8|3FMRuOLY5XV0HQmEza97ZKglWIbcxFOxJT3EDLEp0d788966",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"current_password\": \"Password123\",\r\n    \"new_password\": \"!New_password1\",\r\n    \"new_password_confirmation\": \"!New_password1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/user/password/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"user",
+								"password",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cerrar Sesion",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "5|UViXZBUE4z0PvdIxEGW0rsY1zcFaUvqYOOeCabha4ec78452",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/logout/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"logout",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Estudiantes",
 			"item": [
 				{
 					"name": "Listar Estudiantes (GET)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://127.0.0.1:8000/api/estudiantes/",
 							"protocol": "http",
@@ -36,8 +227,29 @@
 				{
 					"name": "Crear Estudiante (POST)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"nombre\": \"Sara\",\r\n    \"apellido\": \"Benitez\",\r\n    \"dni\": \"123462\",\r\n    \"estado\": \"A\"\r\n}",
@@ -68,8 +280,29 @@
 				{
 					"name": "Obtener Estudiante (GET)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://127.0.0.1:8000/api/estudiantes/1",
 							"protocol": "http",
@@ -92,8 +325,29 @@
 				{
 					"name": "Eliminar Estudiante (DELETE)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://127.0.0.1:8000/api/estudiantes/3",
 							"protocol": "http",
@@ -114,44 +368,31 @@
 					"response": []
 				},
 				{
-					"name": "Actualizar Estudiante - Completo (PACH)",
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Carlos Antonio\",\r\n    \"apellido\": \"Riascos\",\r\n    \"dni\": \"7739188\",\r\n    \"fecha_nacimiento\": \"1990-04-29\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://127.0.0.1:8000/api/estudiantes/1/actualizar-completo",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"estudiantes",
-								"1",
-								"actualizar-completo"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Actualizar Estudiante - Parcial (PUT)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"apellido\": \"Rodriguez\"\r\n}",
@@ -188,8 +429,29 @@
 				{
 					"name": "Crear Docente (POST)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"nombre\": \"Peter\",\r\n    \"apellido\": \"Suarez\",\r\n    \"dni\": \"773912\",\r\n    \"titulo_academico\": \"Lic. Ingles\",\r\n    \"estado\": \"A\"\r\n}",
@@ -220,8 +482,29 @@
 				{
 					"name": "Listar Docentes (GET)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://127.0.0.1:8000/api/docentes",
 							"protocol": "http",
@@ -243,8 +526,29 @@
 				{
 					"name": "Obtener Docente (GET)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://127.0.0.1:8000/api/docentes/1",
 							"protocol": "http",
@@ -267,8 +571,29 @@
 				{
 					"name": "Eliminar Docente (DELETE)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://127.0.0.1:8000/api/docentes/1",
 							"protocol": "http",
@@ -289,44 +614,31 @@
 					"response": []
 				},
 				{
-					"name": "Actualizar Docente - Completo (PACH)",
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Juan\",\r\n    \"apellido\": \"Ortiz\",\r\n    \"dni\": \"11155568\",\r\n    \"area\": \"Mate\",\r\n    \"estado\": \"A\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://127.0.0.1:8000/api/docentes/4/actualizar-completo",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"docentes",
-								"4",
-								"actualizar-completo"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Actualizar Docente - Parcial (PUT)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"titulo_academico\": \"Lic. Sociales\"\r\n}",
@@ -363,8 +675,29 @@
 				{
 					"name": "Crear Curso (POST)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"nombre\": \"SEXTO\",\r\n    \"estado\": \"A\"\r\n}",
@@ -395,8 +728,29 @@
 				{
 					"name": "Listar Cursos (GET)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://127.0.0.1:8000/api/cursos",
 							"protocol": "http",
@@ -418,8 +772,29 @@
 				{
 					"name": "Obtener Curso (GET)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://127.0.0.1:8000/api/cursos/1",
 							"protocol": "http",
@@ -442,8 +817,29 @@
 				{
 					"name": "Eliminar Curso (DELETE)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://127.0.0.1:8000/api/cursos/1",
 							"protocol": "http",
@@ -464,44 +860,31 @@
 					"response": []
 				},
 				{
-					"name": "Actualizar Curso - Completo (PACH)",
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"5A\",\r\n    \"cantidad_max_estudiantes\": 25,\r\n    \"estado\": \"A\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://127.0.0.1:8000/api/cursos/1/actualizar-completo",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"cursos",
-								"1",
-								"actualizar-completo"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Actualizar Curso - Parcial (PUT)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"nombre\": \"SEXTO\"\r\n}",
@@ -538,8 +921,29 @@
 				{
 					"name": "Listar Materias (GET)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://127.0.0.1:8000/api/materias/",
 							"protocol": "http",
@@ -562,8 +966,29 @@
 				{
 					"name": "Crear Materia (POST)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"nombre\": \"ESPANOL\",\r\n    \"estado\": \"A\"\r\n}",
@@ -594,8 +1019,29 @@
 				{
 					"name": "Obtener Materia (GET)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://127.0.0.1:8000/api/materias/1",
 							"protocol": "http",
@@ -618,8 +1064,29 @@
 				{
 					"name": "Eliminar Materia (DELETE)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://127.0.0.1:8000/api/materias/1",
 							"protocol": "http",
@@ -640,44 +1107,31 @@
 					"response": []
 				},
 				{
-					"name": "Actualizar Materia - Completo (PACH)",
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"INGLES\",\r\n    \"cursos_id\": 2,\r\n    \"estado\": \"I\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://127.0.0.1:8000/api/materias/4/actualizar-completo",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"materias",
-								"4",
-								"actualizar-completo"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Actualizar Materia - Parcial (PUT)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"nombre\": \"INGLES\"\r\n}",
@@ -714,8 +1168,29 @@
 				{
 					"name": "Crear Estudiante Curso (POST)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"cursos_id\": 2,\r\n    \"estudiantes_id\": 5\r\n}",
@@ -746,8 +1221,29 @@
 				{
 					"name": "Listar Estudiantes Cursos (GET)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://127.0.0.1:8000/api/estudiantes-cursos",
 							"protocol": "http",
@@ -769,8 +1265,29 @@
 				{
 					"name": "Obtener Estudiantes de un Curso (GET)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://127.0.0.1:8000/api/estudiantes-cursos/2",
 							"protocol": "http",
@@ -793,8 +1310,29 @@
 				{
 					"name": "Eliminar Estudiante Curso (DELETE)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://127.0.0.1:8000/api/estudiantes-cursos/20",
 							"protocol": "http",
@@ -817,8 +1355,29 @@
 				{
 					"name": "Actualizar Estudiante Curso - Parcial (PUT)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"cursos_id\": 2\r\n}",
@@ -855,8 +1414,29 @@
 				{
 					"name": "Listar Docente Materias (GET)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://127.0.0.1:8000/api/docentes-materias/",
 							"protocol": "http",
@@ -879,8 +1459,29 @@
 				{
 					"name": "Crear Docente Materia (POST)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"docentes_id_docentes\": 2,\r\n    \"materias_id_materias\": 2\r\n}",
@@ -911,8 +1512,29 @@
 				{
 					"name": "Obtener Docente Materia (GET)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://127.0.0.1:8000/api/docentes-materias/2",
 							"protocol": "http",
@@ -935,8 +1557,29 @@
 				{
 					"name": "Eliminar Docente Materia (DELETE)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://127.0.0.1:8000/api/docentes-materias/2",
 							"protocol": "http",
@@ -957,44 +1600,31 @@
 					"response": []
 				},
 				{
-					"name": "Actualizar Docente Materia - Completo (PACH)",
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"docentes_id\": 4,\r\n    \"materias_id\": 1,\r\n    \"estado\": \"I\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://127.0.0.1:8000/api/docentes-materias/1/actualizar-completo",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"docentes-materias",
-								"1",
-								"actualizar-completo"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Actualizar Docente Materia - Parcial (PUT)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"docentes_id_docentes\": 2,\r\n    \"materias_id_materias\": 2\r\n}",
@@ -1031,8 +1661,29 @@
 				{
 					"name": "Listar Materias Cursos (GET)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://127.0.0.1:8000/api/materias-cursos/",
 							"protocol": "http",
@@ -1055,8 +1706,29 @@
 				{
 					"name": "Crear Materia Curso (POST)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"cursos_id_cursos\": 1,\r\n    \"materias_id_materias\": 3\r\n}",
@@ -1087,8 +1759,29 @@
 				{
 					"name": "Obtener Materia Curso (GET)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://127.0.0.1:8000/api/materias-cursos/1",
 							"protocol": "http",
@@ -1111,8 +1804,29 @@
 				{
 					"name": "Eliminar Materia Curso (DELETE)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://127.0.0.1:8000/api/materias-cursos/3",
 							"protocol": "http",
@@ -1133,44 +1847,31 @@
 					"response": []
 				},
 				{
-					"name": "Actualizar Docente Materia - Completo (PACH)",
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"docentes_id\": 4,\r\n    \"materias_id\": 1,\r\n    \"estado\": \"I\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://127.0.0.1:8000/api/docentes-materias/1/actualizar-completo",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"docentes-materias",
-								"1",
-								"actualizar-completo"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Actualizar Materia Curso - Parcial (PUT)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "10|Rv2vG1wHgLPhUg00CxlzFeb0BvRqiwkZkZjX8rLO0d065c95",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"cursos_id_cursos\": 2\r\n}",
