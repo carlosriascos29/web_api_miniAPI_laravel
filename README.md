@@ -1,5 +1,91 @@
-## Descripcion
+# Descripcion
 Proyecto de pruebas API Rest en Laravel 11
+
+# Guía de Despliegue
+Esta guía cubre los procesos de despliegue para diferentes entornos tanto en desarrollo como producción.
+
+## Tabla de Contenidos
+- [Despliegue Local](#despliegue-local)
+- [Hosting Compartido/VPS](#hosting-compartidovps)
+- [Servicios en la Nube](#servicios-en-la-nube)
+- [Consideraciones Generales](#consideraciones-generales)
+
+## Despliegue Local
+### Desarrollo
+**Clonar repositorio**
+- git clone https://github.com/tu-usuario/tu-repositorio.git
+- cd tu-repositorio
+
+**Instalar dependencias (sin optimizaciones)**
+- composer install
+
+**Configurar entorno (Apartir del .env.example crear el .env)**
+- cp .env.example .env
+- php artisan key:generate
+
+**Configurar base de datos local en .env**
+- nano .env
+
+**Ejecutar migraciones y seeders**
+- php artisan migrate --seed
+
+**Iniciar servidor de desarrollo**
+- php artisan serve
+
+### Producción (Local)
+**Optimizar para entorno de producción**
+- composer install --no-dev --optimize-autoloader
+- php artisan config:cache
+- php artisan route:cache
+- php artisan view:cache
+
+**Ejecutar sin debug**
+
+**Asegúrate de APP_DEBUG=false en .env**
+
+## Hosting Compartido/VPS
+### Desarrollo
+**Clonar repositorio**
+- git clone -b desarrollo https://github.com/tu-usuario/tu-repositorio.git
+- cd tu-repositorio
+
+**Configurar permisos**
+chmod -R 775 storage bootstrap/cache
+
+**Configurar .env para desarrollo**
+
+**Ejecutar migraciones específicas para desarrollo**
+- php artisan migrate --seed
+
+### Producción
+**Clonar repositorio**
+- git clone -b main https://github.com/tu-usuario/tu-repositorio.git
+- cd tu-repositorio
+
+**Instalar dependencias de producción**
+- composer install --no-dev --optimize-autoloader --no-interaction
+
+**Configuración de producción**
+- php artisan config:cache
+- php artisan route:cache
+- php artisan view:cache
+
+**Configurar permisos**
+- chmod -R 755 storage bootstrap/cache
+
+**Configurar cron jobs**
+- cd /ruta/al/proyecto && php artisan schedule:run >> /dev/null 2>&1
+
+**Configurar colas (si se usan)**
+- php artisan queue:work --daemon
+
+## Consideraciones Generales
+Para todos los entornos de producción:
+- Establecer APP_DEBUG=false en .env
+- Configurar APP_ENV=production
+- Implementar HTTPS
+- Configurar backup automático de base de datos
+- Monitorear logs regularmente
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
