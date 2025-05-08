@@ -7,9 +7,48 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Curso;
 
+/**
+ * @OA\Tag(
+ *     name="Cursos",
+ *     description="API Endpoints para la gestión de cursos"
+ * )
+ */
 class CursoController extends Controller
 {
-    /*----------- LISTAR CURSOS : GET -----------*/
+    /**
+     * @OA\Get(
+     *     path="/api/cursos",
+     *     summary="Obtener lista de cursos activos",
+     *     tags={"Cursos"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de cursos obtenida correctamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=200),
+     *             @OA\Property(property="message", type="string", example="Cursos obtenidos correctamente"),
+     *             @OA\Property(property="errors", type="null"),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id_curso", type="integer", example=1),
+     *                     @OA\Property(property="nombre", type="string", example="Matemáticas"),
+     *                     @OA\Property(property="estado", type="string", example="A")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No se encontraron cursos",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=404),
+     *             @OA\Property(property="message", type="string", example="No se encontraron cursos activos"),
+     *             @OA\Property(property="errors", type="null"),
+     *             @OA\Property(property="data", type="null")
+     *         )
+     *     )
+     * )
+     */
     public function index()
     {
         // Obtener todos los cursos activos ordenados por nombre
@@ -44,7 +83,43 @@ class CursoController extends Controller
         return response()->json($respuesta, 200);
     }
 
-    /*----------- CREAR CURSO : POST -----------*/
+    /**
+     * @OA\Post(
+     *     path="/api/cursos",
+     *     summary="Crear un nuevo curso",
+     *     tags={"Cursos"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"nombre", "estado"},
+     *             @OA\Property(property="nombre", type="string", example="Matemáticas"),
+     *             @OA\Property(property="estado", type="string", example="A", enum={"A", "I"})
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Curso creado exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=201),
+     *             @OA\Property(property="message", type="string", example="Curso creado correctamente"),
+     *             @OA\Property(property="errors", type="null"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="nombre", type="string", example="Matemáticas"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error de validación"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error del servidor"
+     *     )
+     * )
+     */
     public function store(Request $request)
     {
         // Obtener y validar los datos del request
@@ -105,7 +180,38 @@ class CursoController extends Controller
         }
     }
 
-    /*----------- MOSTRAR CURSO : GET -----------*/
+    /**
+     * @OA\Get(
+     *     path="/api/cursos/{id}",
+     *     summary="Obtener un curso específico",
+     *     tags={"Cursos"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del curso",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Curso encontrado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=200),
+     *             @OA\Property(property="message", type="string", example="Curso obtenido correctamente"),
+     *             @OA\Property(property="errors", type="null"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="id_curso", type="integer", example=1),
+     *                 @OA\Property(property="nombre", type="string", example="Matemáticas"),
+     *                 @OA\Property(property="estado", type="string", example="A")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Curso no encontrado"
+     *     )
+     * )
+     */
     public function show(string $id)
     {
         // Obtener el curso activo por su ID
@@ -140,7 +246,43 @@ class CursoController extends Controller
         return response()->json($respuesta, 200);
     }
 
-    /*----------- ACTUALIZAR CURSO : PUT -----------*/
+    /**
+     * @OA\Put(
+     *     path="/api/cursos/{id}",
+     *     summary="Actualizar un curso existente",
+     *     tags={"Cursos"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del curso",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="nombre", type="string", example="Matemáticas Avanzadas"),
+     *             @OA\Property(property="estado", type="string", example="A", enum={"A", "I"})
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Curso actualizado exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error de validación"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Curso no encontrado"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error del servidor"
+     *     )
+     * )
+     */
     public function update(Request $request, string $id)
     {
         // Este controlador no permite el uso de PATCH
@@ -226,7 +368,41 @@ class CursoController extends Controller
         }
     }
 
-    /*----------- BORRADO LÓGICO : DELETE -----------*/
+    /**
+     * @OA\Delete(
+     *     path="/api/cursos/{id}",
+     *     summary="Eliminar un curso (borrado lógico)",
+     *     tags={"Cursos"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del curso",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Curso eliminado exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=200),
+     *             @OA\Property(property="message", type="string", example="Curso eliminado correctamente"),
+     *             @OA\Property(property="errors", type="null"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="nombre", type="string", example="Matemáticas"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Curso no encontrado"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error del servidor"
+     *     )
+     * )
+     */
     public function destroy(string $id)
     {
         // Obtener el curso activo por su ID

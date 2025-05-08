@@ -7,9 +7,42 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Materia;
 
+/**
+ * @OA\Tag(
+ *     name="Materias",
+ *     description="API Endpoints para la gestión de materias"
+ * )
+ */
 class MateriaController extends Controller
 {
-    /*----------- LISTAR MATERIAS : GET -----------*/
+    /**
+     * @OA\Get(
+     *     path="/api/materias",
+     *     summary="Obtener lista de materias activas",
+     *     tags={"Materias"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de materias obtenida correctamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=200),
+     *             @OA\Property(property="message", type="string", example="Materias obtenidas correctamente"),
+     *             @OA\Property(property="errors", type="null"),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id_materia", type="integer", example=1),
+     *                     @OA\Property(property="nombre", type="string", example="Matemáticas"),
+     *                     @OA\Property(property="estado", type="string", example="A")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No se encontraron materias"
+     *     )
+     * )
+     */
     public function index()
     {
         // Obtener todas las materias activas ordenadas por nombre
@@ -44,7 +77,43 @@ class MateriaController extends Controller
         return response()->json($respuesta, 200);
     }
 
-    /*----------- CREAR MATERIA : POST -----------*/
+    /**
+     * @OA\Post(
+     *     path="/api/materias",
+     *     summary="Crear una nueva materia",
+     *     tags={"Materias"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"nombre", "estado"},
+     *             @OA\Property(property="nombre", type="string", example="Matemáticas"),
+     *             @OA\Property(property="estado", type="string", example="A", enum={"A", "I"})
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Materia creada exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=201),
+     *             @OA\Property(property="message", type="string", example="Materia creada correctamente"),
+     *             @OA\Property(property="errors", type="null"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="nombre", type="string", example="Matemáticas"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error de validación"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error del servidor"
+     *     )
+     * )
+     */
     public function store(Request $request)
     {
         // Obtener y validar los datos del request
@@ -105,7 +174,39 @@ class MateriaController extends Controller
         }
     }
 
-    /*----------- MOSTRAR MATERIA : GET -----------*/
+    /**
+     * @OA\Get(
+     *     path="/api/materias/{id}",
+     *     summary="Obtener una materia específica",
+     *     tags={"Materias"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la materia",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Materia encontrada",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=200),
+     *             @OA\Property(property="message", type="string", example="Materia obtenida correctamente"),
+     *             @OA\Property(property="errors", type="null"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="id_materia", type="integer", example=1),
+     *                 @OA\Property(property="nombre", type="string", example="Matemáticas"),
+     *                 @OA\Property(property="estado", type="string", example="A")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Materia no encontrada"
+     *     )
+     * )
+     */
     public function show(string $id)
     {
         // Obtener la materia activa por su ID
@@ -140,7 +241,44 @@ class MateriaController extends Controller
         return response()->json($respuesta, 200);
     }
 
-    /*----------- ACTUALIZAR MATERIA : PUT -----------*/
+    /**
+     * @OA\Put(
+     *     path="/api/materias/{id}",
+     *     summary="Actualizar una materia existente",
+     *     tags={"Materias"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la materia",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="nombre", type="string", example="Matemáticas"),
+     *             @OA\Property(property="estado", type="string", example="A", enum={"A", "I"})
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Materia actualizada exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error de validación"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Materia no encontrada"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error del servidor"
+     *     )
+     * )
+     */
     public function update(Request $request, string $id)
     {
         // Este controlador no permite el uso de PATCH
@@ -226,7 +364,42 @@ class MateriaController extends Controller
         }
     }
 
-    /*----------- BORRADO LÓGICO : DELETE -----------*/
+    /**
+     * @OA\Delete(
+     *     path="/api/materias/{id}",
+     *     summary="Eliminar una materia (borrado lógico)",
+     *     tags={"Materias"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la materia",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Materia eliminada exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=200),
+     *             @OA\Property(property="message", type="string", example="Materia eliminada correctamente"),
+     *             @OA\Property(property="errors", type="null"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="nombre", type="string", example="Matemáticas"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Materia no encontrada"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error del servidor"
+     *     )
+     * )
+     */
     public function destroy(string $id)
     {
         // Obtener la materia activa por su ID

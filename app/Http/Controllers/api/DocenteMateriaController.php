@@ -9,9 +9,53 @@ use App\Models\DocenteMateria;
 use App\Models\Docente;
 use App\Models\Materia;
 
+/**
+ * @OA\Tag(
+ *     name="Asignaciones Docente-Materia",
+ *     description="API Endpoints para la gestión de asignaciones entre docentes y materias"
+ * )
+ */
 class DocenteMateriaController extends Controller
 {
-    /*----------- LISTAR ASIGNACIONES : GET -----------*/
+    /**
+     * @OA\Get(
+     *     path="/api/docente-materia",
+     *     summary="Obtener todas las asignaciones de docentes a materias",
+     *     tags={"Asignaciones Docente-Materia"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de asignaciones obtenida correctamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=200),
+     *             @OA\Property(property="message", type="string", example="Asignaciones obtenidas correctamente"),
+     *             @OA\Property(property="errors", type="null"),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="docentes_id_docentes", type="integer", example=1),
+     *                     @OA\Property(property="materias_id_materias", type="integer", example=1),
+     *                     @OA\Property(property="docente", type="object",
+     *                         @OA\Property(property="id_docente", type="integer", example=1),
+     *                         @OA\Property(property="nombre", type="string", example="Juan"),
+     *                         @OA\Property(property="apellido", type="string", example="Pérez"),
+     *                         @OA\Property(property="estado", type="string", example="A")
+     *                     ),
+     *                     @OA\Property(property="materia", type="object",
+     *                         @OA\Property(property="id_materia", type="integer", example=1),
+     *                         @OA\Property(property="nombre", type="string", example="Matemáticas"),
+     *                         @OA\Property(property="estado", type="string", example="A")
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No se encontraron asignaciones"
+     *     )
+     * )
+     */
     public function index()
     {
         // Obtener todas las asignaciones con sus docentes y materias
@@ -48,7 +92,48 @@ class DocenteMateriaController extends Controller
         return response()->json($respuesta, 200);
     }
 
-    /*----------- CREAR ASIGNACIÓN : POST -----------*/
+    /**
+     * @OA\Post(
+     *     path="/api/docente-materia",
+     *     summary="Crear una nueva asignación de docente a materia",
+     *     tags={"Asignaciones Docente-Materia"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"docentes_id_docentes", "materias_id_materias"},
+     *             @OA\Property(property="docentes_id_docentes", type="integer", example=1),
+     *             @OA\Property(property="materias_id_materias", type="integer", example=1)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Asignación creada exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=201),
+     *             @OA\Property(property="message", type="string", example="Asignación creada correctamente"),
+     *             @OA\Property(property="errors", type="null"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="docente_id", type="integer", example=1),
+     *                 @OA\Property(property="materia_id", type="integer", example=1),
+     *                 @OA\Property(property="created_at", type="string", format="date-time")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error de validación"
+     *     ),
+     *     @OA\Response(
+     *         response=409,
+     *         description="El docente ya está asignado a esta materia"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error del servidor"
+     *     )
+     * )
+     */
     public function store(Request $request)
     {
         // Obtener y validar los datos del request
@@ -126,7 +211,46 @@ class DocenteMateriaController extends Controller
         }
     }
 
-    /*----------- MOSTRAR MATERIAS POR DOCENTE : GET -----------*/
+    /**
+     * @OA\Get(
+     *     path="/api/docente-materia/{docenteId}",
+     *     summary="Obtener todas las materias asignadas a un docente",
+     *     tags={"Asignaciones Docente-Materia"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="docenteId",
+     *         in="path",
+     *         required=true,
+     *         description="ID del docente",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Materias del docente obtenidas correctamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=200),
+     *             @OA\Property(property="message", type="string", example="Materias del docente obtenidas correctamente"),
+     *             @OA\Property(property="errors", type="null"),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="docentes_id_docentes", type="integer", example=1),
+     *                     @OA\Property(property="materias_id_materias", type="integer", example=1),
+     *                     @OA\Property(property="materia", type="object",
+     *                         @OA\Property(property="id_materia", type="integer", example=1),
+     *                         @OA\Property(property="nombre", type="string", example="Matemáticas"),
+     *                         @OA\Property(property="estado", type="string", example="A")
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Docente no encontrado o sin materias asignadas"
+     *     )
+     * )
+     */
     public function show(string $docenteId)
     {
         // Obtener el docente y validar que exista y esté activo
@@ -177,7 +301,48 @@ class DocenteMateriaController extends Controller
         return response()->json($respuesta, 200);
     }
 
-    /*----------- ACTUALIZAR ASIGNACIÓN : PUT -----------*/
+    /**
+     * @OA\Put(
+     *     path="/api/docente-materia/{id}",
+     *     summary="Actualizar una asignación existente",
+     *     tags={"Asignaciones Docente-Materia"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la asignación",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="docentes_id_docentes", type="integer", example=1),
+     *             @OA\Property(property="materias_id_materias", type="integer", example=1)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Asignación actualizada exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error de validación"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Asignación no encontrada"
+     *     ),
+     *     @OA\Response(
+     *         response=409,
+     *         description="El docente ya está asignado a esta materia"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error del servidor"
+     *     )
+     * )
+     */
     public function update(Request $request, string $id)
     {
         // Este controlador no permite el uso de PATCH
@@ -280,7 +445,42 @@ class DocenteMateriaController extends Controller
         }
     }
 
-    /*----------- ELIMINAR ASIGNACIÓN : DELETE -----------*/
+    /**
+     * @OA\Delete(
+     *     path="/api/docente-materia/{id}",
+     *     summary="Eliminar una asignación",
+     *     tags={"Asignaciones Docente-Materia"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la asignación",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Asignación eliminada exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=200),
+     *             @OA\Property(property="message", type="string", example="Asignación eliminada correctamente"),
+     *             @OA\Property(property="errors", type="null"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="id", type="string", example="1"),
+     *                 @OA\Property(property="deleted_at", type="string", format="date-time")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Asignación no encontrada"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error del servidor"
+     *     )
+     * )
+     */
     public function destroy(string $id)
     {
         // Obtener la asignación y validar que exista

@@ -7,9 +7,45 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Docente;
 
+/**
+ * @OA\Tag(
+ *     name="Docentes",
+ *     description="API Endpoints para la gestión de docentes"
+ * )
+ */
 class DocenteController extends Controller
 {
-    /*----------- LISTAR DOCENTES : GET -----------*/
+    /**
+     * @OA\Get(
+     *     path="/api/docentes",
+     *     summary="Obtener lista de docentes activos",
+     *     tags={"Docentes"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de docentes obtenida correctamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=200),
+     *             @OA\Property(property="message", type="string", example="Docentes obtenidos correctamente"),
+     *             @OA\Property(property="errors", type="null"),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id_docente", type="integer", example=1),
+     *                     @OA\Property(property="nombre", type="string", example="Juan"),
+     *                     @OA\Property(property="apellido", type="string", example="Pérez"),
+     *                     @OA\Property(property="dni", type="string", example="12345678"),
+     *                     @OA\Property(property="titulo_academico", type="string", example="Licenciado en Matemáticas"),
+     *                     @OA\Property(property="estado", type="string", example="A")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No se encontraron docentes"
+     *     )
+     * )
+     */
     public function index()
     {
         // Obtener todos los docentes activos ordenados por apellido y nombre
@@ -48,7 +84,47 @@ class DocenteController extends Controller
         return response()->json($respuesta, 200);
     }
 
-    /*----------- CREAR DOCENTE : POST -----------*/
+    /**
+     * @OA\Post(
+     *     path="/api/docentes",
+     *     summary="Crear un nuevo docente",
+     *     tags={"Docentes"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"nombre", "apellido", "dni", "titulo_academico", "estado"},
+     *             @OA\Property(property="nombre", type="string", example="Juan"),
+     *             @OA\Property(property="apellido", type="string", example="Pérez"),
+     *             @OA\Property(property="dni", type="string", example="12345678"),
+     *             @OA\Property(property="titulo_academico", type="string", example="Licenciado en Matemáticas"),
+     *             @OA\Property(property="estado", type="string", example="A", enum={"A", "I"})
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Docente creado exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=201),
+     *             @OA\Property(property="message", type="string", example="Docente creado correctamente"),
+     *             @OA\Property(property="errors", type="null"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="nombre", type="string", example="Juan"),
+     *                 @OA\Property(property="apellido", type="string", example="Pérez"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error de validación"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error del servidor"
+     *     )
+     * )
+     */
     public function store(Request $request)
     {
         // Obtener y validar los datos del request
@@ -113,7 +189,42 @@ class DocenteController extends Controller
         }
     }
 
-    /*----------- MOSTRAR DOCENTE : GET -----------*/
+    /**
+     * @OA\Get(
+     *     path="/api/docentes/{id}",
+     *     summary="Obtener un docente específico",
+     *     tags={"Docentes"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del docente",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Docente encontrado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=200),
+     *             @OA\Property(property="message", type="string", example="Docente obtenido correctamente"),
+     *             @OA\Property(property="errors", type="null"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="id_docente", type="integer", example=1),
+     *                 @OA\Property(property="nombre", type="string", example="Juan"),
+     *                 @OA\Property(property="apellido", type="string", example="Pérez"),
+     *                 @OA\Property(property="dni", type="string", example="12345678"),
+     *                 @OA\Property(property="titulo_academico", type="string", example="Licenciado en Matemáticas"),
+     *                 @OA\Property(property="estado", type="string", example="A")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Docente no encontrado"
+     *     )
+     * )
+     */
     public function show(string $id)
     {
         // Obtener el docente activo por su ID
@@ -151,7 +262,47 @@ class DocenteController extends Controller
         return response()->json($respuesta, 200);
     }
 
-    /*----------- ACTUALIZAR DOCENTE : PUT -----------*/
+    /**
+     * @OA\Put(
+     *     path="/api/docentes/{id}",
+     *     summary="Actualizar un docente existente",
+     *     tags={"Docentes"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del docente",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="nombre", type="string", example="Juan"),
+     *             @OA\Property(property="apellido", type="string", example="Pérez"),
+     *             @OA\Property(property="dni", type="string", example="12345678"),
+     *             @OA\Property(property="titulo_academico", type="string", example="Licenciado en Matemáticas"),
+     *             @OA\Property(property="estado", type="string", example="A", enum={"A", "I"})
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Docente actualizado exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error de validación"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Docente no encontrado"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error del servidor"
+     *     )
+     * )
+     */
     public function update(Request $request, string $id)
     {
         // Este controlador no permite el uso de PATCH
@@ -240,7 +391,43 @@ class DocenteController extends Controller
         }
     }
 
-    /*----------- BORRADO LÓGICO : DELETE -----------*/
+    /**
+     * @OA\Delete(
+     *     path="/api/docentes/{id}",
+     *     summary="Eliminar un docente (borrado lógico)",
+     *     tags={"Docentes"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del docente",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Docente eliminado exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=200),
+     *             @OA\Property(property="message", type="string", example="Docente eliminado correctamente"),
+     *             @OA\Property(property="errors", type="null"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="nombre", type="string", example="Juan"),
+     *                 @OA\Property(property="apellido", type="string", example="Pérez"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Docente no encontrado"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error del servidor"
+     *     )
+     * )
+     */
     public function destroy(string $id)
     {
         // Obtener el docente activo por su ID

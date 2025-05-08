@@ -1,0 +1,3090 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API de Gestión Académica",
+        "description": "API REST para la gestión de cursos, estudiantes, docentes y materias",
+        "contact": {
+            "name": "Soporte API",
+            "email": "admin@example.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Servidor Local"
+        }
+    ],
+    "paths": {
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Iniciar sesión de usuario",
+                "operationId": "dcf90ce65219b0ad51fc32e9f7f69843",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "usuario@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "MiContraseña123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login exitoso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Usuario autenticado correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "token": {
+                                                    "type": "string",
+                                                    "example": "1|abcdef123456..."
+                                                },
+                                                "user": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "John Doe"
+                                                        },
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "usuario@example.com"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Credenciales inválidas"
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Cerrar sesión de usuario",
+                "operationId": "2a5c5c6e21dd0583f5d700d2f707f03f",
+                "responses": {
+                    "200": {
+                        "description": "Logout exitoso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sesión cerrada correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Registrar nuevo usuario",
+                "operationId": "76a1cbaea48a581595406d4dd685cc2c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "usuario@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "MiContraseña123"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "MiContraseña123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuario registrado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Usuario registrado correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "token": {
+                                                    "type": "string",
+                                                    "example": "1|abcdef123456..."
+                                                },
+                                                "user": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "John Doe"
+                                                        },
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "usuario@example.com"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
+        "/api/password": {
+            "put": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Actualizar contraseña del usuario",
+                "operationId": "0e339a77cd57ef4f1c3251739140fff7",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "current_password",
+                                    "new_password",
+                                    "new_password_confirmation"
+                                ],
+                                "properties": {
+                                    "current_password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "ContraseñaActual123"
+                                    },
+                                    "new_password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "NuevaContraseña123!"
+                                    },
+                                    "new_password_confirmation": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "NuevaContraseña123!"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Contraseña actualizada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Contraseña actualizada correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "token": {
+                                                    "type": "string",
+                                                    "example": "1|abcdef123456..."
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Contraseña actual incorrecta"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/cursos": {
+            "get": {
+                "tags": [
+                    "Cursos"
+                ],
+                "summary": "Obtener lista de cursos activos",
+                "operationId": "23c4da733e2fbb8ff4c5497807842dc2",
+                "responses": {
+                    "200": {
+                        "description": "Lista de cursos obtenida correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cursos obtenidos correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id_curso": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "example": "Matemáticas"
+                                                    },
+                                                    "estado": {
+                                                        "type": "string",
+                                                        "example": "A"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron cursos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 404
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No se encontraron cursos activos"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Cursos"
+                ],
+                "summary": "Crear un nuevo curso",
+                "operationId": "68b4125ac6072271ba36717cbadc1133",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre",
+                                    "estado"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Matemáticas"
+                                    },
+                                    "estado": {
+                                        "type": "string",
+                                        "enum": [
+                                            "A",
+                                            "I"
+                                        ],
+                                        "example": "A"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Curso creado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Curso creado correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Matemáticas"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error de validación"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/cursos/{id}": {
+            "get": {
+                "tags": [
+                    "Cursos"
+                ],
+                "summary": "Obtener un curso específico",
+                "operationId": "b21eb9f99fe3dcfc7170d25e3422de78",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del curso",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Curso encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Curso obtenido correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id_curso": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Matemáticas"
+                                                },
+                                                "estado": {
+                                                    "type": "string",
+                                                    "example": "A"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Curso no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Cursos"
+                ],
+                "summary": "Actualizar un curso existente",
+                "operationId": "cf2e652ab69c3810b02d736f264b347e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del curso",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Matemáticas Avanzadas"
+                                    },
+                                    "estado": {
+                                        "type": "string",
+                                        "enum": [
+                                            "A",
+                                            "I"
+                                        ],
+                                        "example": "A"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Curso actualizado exitosamente"
+                    },
+                    "400": {
+                        "description": "Error de validación"
+                    },
+                    "404": {
+                        "description": "Curso no encontrado"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Cursos"
+                ],
+                "summary": "Eliminar un curso (borrado lógico)",
+                "operationId": "5628d693e66cb7ee3d8ab5ded305276f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del curso",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Curso eliminado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Curso eliminado correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Matemáticas"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Curso no encontrado"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                }
+            }
+        },
+        "/api/docentes": {
+            "get": {
+                "tags": [
+                    "Docentes"
+                ],
+                "summary": "Obtener lista de docentes activos",
+                "operationId": "b588c11a6c17022729286fea84c0594f",
+                "responses": {
+                    "200": {
+                        "description": "Lista de docentes obtenida correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Docentes obtenidos correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id_docente": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "example": "Juan"
+                                                    },
+                                                    "apellido": {
+                                                        "type": "string",
+                                                        "example": "Pérez"
+                                                    },
+                                                    "dni": {
+                                                        "type": "string",
+                                                        "example": "12345678"
+                                                    },
+                                                    "titulo_academico": {
+                                                        "type": "string",
+                                                        "example": "Licenciado en Matemáticas"
+                                                    },
+                                                    "estado": {
+                                                        "type": "string",
+                                                        "example": "A"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron docentes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Docentes"
+                ],
+                "summary": "Crear un nuevo docente",
+                "operationId": "4bf41f182165401ab24053533defecc0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre",
+                                    "apellido",
+                                    "dni",
+                                    "titulo_academico",
+                                    "estado"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Juan"
+                                    },
+                                    "apellido": {
+                                        "type": "string",
+                                        "example": "Pérez"
+                                    },
+                                    "dni": {
+                                        "type": "string",
+                                        "example": "12345678"
+                                    },
+                                    "titulo_academico": {
+                                        "type": "string",
+                                        "example": "Licenciado en Matemáticas"
+                                    },
+                                    "estado": {
+                                        "type": "string",
+                                        "enum": [
+                                            "A",
+                                            "I"
+                                        ],
+                                        "example": "A"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Docente creado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Docente creado correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Juan"
+                                                },
+                                                "apellido": {
+                                                    "type": "string",
+                                                    "example": "Pérez"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error de validación"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/docentes/{id}": {
+            "get": {
+                "tags": [
+                    "Docentes"
+                ],
+                "summary": "Obtener un docente específico",
+                "operationId": "6e86e76a00f42194be3f7d944fb9943f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del docente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Docente encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Docente obtenido correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id_docente": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Juan"
+                                                },
+                                                "apellido": {
+                                                    "type": "string",
+                                                    "example": "Pérez"
+                                                },
+                                                "dni": {
+                                                    "type": "string",
+                                                    "example": "12345678"
+                                                },
+                                                "titulo_academico": {
+                                                    "type": "string",
+                                                    "example": "Licenciado en Matemáticas"
+                                                },
+                                                "estado": {
+                                                    "type": "string",
+                                                    "example": "A"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Docente no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Docentes"
+                ],
+                "summary": "Actualizar un docente existente",
+                "operationId": "3fa7b7fdc1b5ad2decdc99eb83983964",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del docente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Juan"
+                                    },
+                                    "apellido": {
+                                        "type": "string",
+                                        "example": "Pérez"
+                                    },
+                                    "dni": {
+                                        "type": "string",
+                                        "example": "12345678"
+                                    },
+                                    "titulo_academico": {
+                                        "type": "string",
+                                        "example": "Licenciado en Matemáticas"
+                                    },
+                                    "estado": {
+                                        "type": "string",
+                                        "enum": [
+                                            "A",
+                                            "I"
+                                        ],
+                                        "example": "A"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Docente actualizado exitosamente"
+                    },
+                    "400": {
+                        "description": "Error de validación"
+                    },
+                    "404": {
+                        "description": "Docente no encontrado"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Docentes"
+                ],
+                "summary": "Eliminar un docente (borrado lógico)",
+                "operationId": "ff613be3957a2a8a4e4e0c8f22cd7faa",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del docente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Docente eliminado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Docente eliminado correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Juan"
+                                                },
+                                                "apellido": {
+                                                    "type": "string",
+                                                    "example": "Pérez"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Docente no encontrado"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/docente-materia": {
+            "get": {
+                "tags": [
+                    "Asignaciones Docente-Materia"
+                ],
+                "summary": "Obtener todas las asignaciones de docentes a materias",
+                "operationId": "24fd09180e0bd106b96673860d1049cc",
+                "responses": {
+                    "200": {
+                        "description": "Lista de asignaciones obtenida correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Asignaciones obtenidas correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "docentes_id_docentes": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "materias_id_materias": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "docente": {
+                                                        "properties": {
+                                                            "id_docente": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "nombre": {
+                                                                "type": "string",
+                                                                "example": "Juan"
+                                                            },
+                                                            "apellido": {
+                                                                "type": "string",
+                                                                "example": "Pérez"
+                                                            },
+                                                            "estado": {
+                                                                "type": "string",
+                                                                "example": "A"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "materia": {
+                                                        "properties": {
+                                                            "id_materia": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "nombre": {
+                                                                "type": "string",
+                                                                "example": "Matemáticas"
+                                                            },
+                                                            "estado": {
+                                                                "type": "string",
+                                                                "example": "A"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron asignaciones"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Asignaciones Docente-Materia"
+                ],
+                "summary": "Crear una nueva asignación de docente a materia",
+                "operationId": "8d41ef54ca85f3552521f15eb04a025c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "docentes_id_docentes",
+                                    "materias_id_materias"
+                                ],
+                                "properties": {
+                                    "docentes_id_docentes": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "materias_id_materias": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Asignación creada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Asignación creada correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "docente_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "materia_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error de validación"
+                    },
+                    "409": {
+                        "description": "El docente ya está asignado a esta materia"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/docente-materia/{docenteId}": {
+            "get": {
+                "tags": [
+                    "Asignaciones Docente-Materia"
+                ],
+                "summary": "Obtener todas las materias asignadas a un docente",
+                "operationId": "2a0364dc4cc5475e61be6df24ebcc416",
+                "parameters": [
+                    {
+                        "name": "docenteId",
+                        "in": "path",
+                        "description": "ID del docente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Materias del docente obtenidas correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Materias del docente obtenidas correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "docentes_id_docentes": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "materias_id_materias": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "materia": {
+                                                        "properties": {
+                                                            "id_materia": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "nombre": {
+                                                                "type": "string",
+                                                                "example": "Matemáticas"
+                                                            },
+                                                            "estado": {
+                                                                "type": "string",
+                                                                "example": "A"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Docente no encontrado o sin materias asignadas"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/docente-materia/{id}": {
+            "put": {
+                "tags": [
+                    "Asignaciones Docente-Materia"
+                ],
+                "summary": "Actualizar una asignación existente",
+                "operationId": "8f70ae48a5064f966e8e61d2abc716e4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la asignación",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "docentes_id_docentes": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "materias_id_materias": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Asignación actualizada exitosamente"
+                    },
+                    "400": {
+                        "description": "Error de validación"
+                    },
+                    "404": {
+                        "description": "Asignación no encontrada"
+                    },
+                    "409": {
+                        "description": "El docente ya está asignado a esta materia"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Asignaciones Docente-Materia"
+                ],
+                "summary": "Eliminar una asignación",
+                "operationId": "f8383a38cef97c4e94f473c6d5c7a5ac",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la asignación",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Asignación eliminada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Asignación eliminada correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": "1"
+                                                },
+                                                "deleted_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Asignación no encontrada"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/estudiantes": {
+            "get": {
+                "tags": [
+                    "Estudiantes"
+                ],
+                "summary": "Obtener lista de estudiantes activos",
+                "operationId": "779db6de87545b98fcad09b95d27802f",
+                "responses": {
+                    "200": {
+                        "description": "Lista de estudiantes obtenida correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Estudiantes obtenidos correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id_estudiante": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "example": "Juan"
+                                                    },
+                                                    "apellido": {
+                                                        "type": "string",
+                                                        "example": "Pérez"
+                                                    },
+                                                    "dni": {
+                                                        "type": "string",
+                                                        "example": "12345678"
+                                                    },
+                                                    "estado": {
+                                                        "type": "string",
+                                                        "example": "A"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron estudiantes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Estudiantes"
+                ],
+                "summary": "Crear un nuevo estudiante",
+                "operationId": "b9fe7a1674bee298c8c06c16cd7f5146",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre",
+                                    "apellido",
+                                    "dni",
+                                    "estado"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Juan"
+                                    },
+                                    "apellido": {
+                                        "type": "string",
+                                        "example": "Pérez"
+                                    },
+                                    "dni": {
+                                        "type": "string",
+                                        "example": "12345678"
+                                    },
+                                    "estado": {
+                                        "type": "string",
+                                        "enum": [
+                                            "A",
+                                            "I"
+                                        ],
+                                        "example": "A"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Estudiante creado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Estudiante creado correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Juan"
+                                                },
+                                                "apellido": {
+                                                    "type": "string",
+                                                    "example": "Pérez"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error de validación"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/estudiantes/{id}": {
+            "get": {
+                "tags": [
+                    "Estudiantes"
+                ],
+                "summary": "Obtener un estudiante específico",
+                "operationId": "186388d7d3f3bd19077d7ce2616445ac",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del estudiante",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Estudiante encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Estudiante obtenido correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id_estudiante": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Juan"
+                                                },
+                                                "apellido": {
+                                                    "type": "string",
+                                                    "example": "Pérez"
+                                                },
+                                                "dni": {
+                                                    "type": "string",
+                                                    "example": "12345678"
+                                                },
+                                                "estado": {
+                                                    "type": "string",
+                                                    "example": "A"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Estudiante no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Estudiantes"
+                ],
+                "summary": "Actualizar un estudiante existente",
+                "operationId": "9508c26eb6e91c4218db46ea6b672ecf",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del estudiante",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Juan"
+                                    },
+                                    "apellido": {
+                                        "type": "string",
+                                        "example": "Pérez"
+                                    },
+                                    "dni": {
+                                        "type": "string",
+                                        "example": "12345678"
+                                    },
+                                    "estado": {
+                                        "type": "string",
+                                        "enum": [
+                                            "A",
+                                            "I"
+                                        ],
+                                        "example": "A"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Estudiante actualizado exitosamente"
+                    },
+                    "400": {
+                        "description": "Error de validación"
+                    },
+                    "404": {
+                        "description": "Estudiante no encontrado"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Estudiantes"
+                ],
+                "summary": "Eliminar un estudiante (borrado lógico)",
+                "operationId": "b95cb3e44937f7ec656c4b49ef1b54aa",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del estudiante",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Estudiante eliminado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Estudiante eliminado correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Juan"
+                                                },
+                                                "apellido": {
+                                                    "type": "string",
+                                                    "example": "Pérez"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Estudiante no encontrado"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/estudiante-curso": {
+            "get": {
+                "tags": [
+                    "Asignaciones Estudiante-Curso"
+                ],
+                "summary": "Obtener todas las asignaciones de estudiantes a cursos",
+                "operationId": "77350a471b364a91093ebd254da364d8",
+                "responses": {
+                    "200": {
+                        "description": "Lista de asignaciones obtenida correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Asignaciones obtenidas correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "estudiantes_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "cursos_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "estudiante": {
+                                                        "properties": {
+                                                            "id_estudiante": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "nombre": {
+                                                                "type": "string",
+                                                                "example": "Juan"
+                                                            },
+                                                            "apellido": {
+                                                                "type": "string",
+                                                                "example": "Pérez"
+                                                            },
+                                                            "estado": {
+                                                                "type": "string",
+                                                                "example": "A"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "curso": {
+                                                        "properties": {
+                                                            "id_curso": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "nombre": {
+                                                                "type": "string",
+                                                                "example": "Matemáticas Básicas"
+                                                            },
+                                                            "estado": {
+                                                                "type": "string",
+                                                                "example": "A"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron asignaciones"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Asignaciones Estudiante-Curso"
+                ],
+                "summary": "Crear una nueva asignación de estudiante a curso",
+                "operationId": "1ecbc574ff958efc698859f8750fe739",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "estudiantes_id",
+                                    "cursos_id"
+                                ],
+                                "properties": {
+                                    "estudiantes_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "cursos_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Asignación creada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Asignación creada correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "estudiante_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "curso_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error de validación"
+                    },
+                    "409": {
+                        "description": "El estudiante ya está inscrito en este curso"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/estudiante-curso/{cursoId}": {
+            "get": {
+                "tags": [
+                    "Asignaciones Estudiante-Curso"
+                ],
+                "summary": "Obtener todos los estudiantes asignados a un curso",
+                "operationId": "7097b162f8cf1dd122f63c9a0434adc9",
+                "parameters": [
+                    {
+                        "name": "cursoId",
+                        "in": "path",
+                        "description": "ID del curso",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Estudiantes del curso obtenidos correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Estudiantes del curso obtenidos correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "estudiantes_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "cursos_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "estudiante": {
+                                                        "properties": {
+                                                            "id_estudiante": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "nombre": {
+                                                                "type": "string",
+                                                                "example": "Juan"
+                                                            },
+                                                            "apellido": {
+                                                                "type": "string",
+                                                                "example": "Pérez"
+                                                            },
+                                                            "estado": {
+                                                                "type": "string",
+                                                                "example": "A"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Curso no encontrado o sin estudiantes asignados"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/estudiante-curso/{id}": {
+            "put": {
+                "tags": [
+                    "Asignaciones Estudiante-Curso"
+                ],
+                "summary": "Actualizar una asignación existente",
+                "operationId": "9f146acd3578078bc6284d160d5c72d4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la asignación",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "estudiantes_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "cursos_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Asignación actualizada exitosamente"
+                    },
+                    "400": {
+                        "description": "Error de validación"
+                    },
+                    "404": {
+                        "description": "Asignación no encontrada"
+                    },
+                    "409": {
+                        "description": "El estudiante ya está inscrito en este curso"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Asignaciones Estudiante-Curso"
+                ],
+                "summary": "Eliminar una asignación",
+                "operationId": "d972da61edb3486933bf2a5639b09b53",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la asignación",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Asignación eliminada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Asignación eliminada correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": "1"
+                                                },
+                                                "deleted_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Asignación no encontrada"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/materias": {
+            "get": {
+                "tags": [
+                    "Materias"
+                ],
+                "summary": "Obtener lista de materias activas",
+                "operationId": "f6c7f04d30fc1490ab1aa93aadcbad3d",
+                "responses": {
+                    "200": {
+                        "description": "Lista de materias obtenida correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Materias obtenidas correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id_materia": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "example": "Matemáticas"
+                                                    },
+                                                    "estado": {
+                                                        "type": "string",
+                                                        "example": "A"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron materias"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Materias"
+                ],
+                "summary": "Crear una nueva materia",
+                "operationId": "91ba713225c879cc727b207ff5d2176d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre",
+                                    "estado"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Matemáticas"
+                                    },
+                                    "estado": {
+                                        "type": "string",
+                                        "enum": [
+                                            "A",
+                                            "I"
+                                        ],
+                                        "example": "A"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Materia creada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Materia creada correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Matemáticas"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error de validación"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/materias/{id}": {
+            "get": {
+                "tags": [
+                    "Materias"
+                ],
+                "summary": "Obtener una materia específica",
+                "operationId": "9ef1e87bad8591defa68c1890489c093",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la materia",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Materia encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Materia obtenida correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id_materia": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Matemáticas"
+                                                },
+                                                "estado": {
+                                                    "type": "string",
+                                                    "example": "A"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Materia no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Materias"
+                ],
+                "summary": "Actualizar una materia existente",
+                "operationId": "70ff19abd976d4fc6c7a8b2903bfe391",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la materia",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Matemáticas"
+                                    },
+                                    "estado": {
+                                        "type": "string",
+                                        "enum": [
+                                            "A",
+                                            "I"
+                                        ],
+                                        "example": "A"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Materia actualizada exitosamente"
+                    },
+                    "400": {
+                        "description": "Error de validación"
+                    },
+                    "404": {
+                        "description": "Materia no encontrada"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Materias"
+                ],
+                "summary": "Eliminar una materia (borrado lógico)",
+                "operationId": "49248596eed2af124a1aa6acac1c437d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la materia",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Materia eliminada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Materia eliminada correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Matemáticas"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Materia no encontrada"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/materia-curso": {
+            "get": {
+                "tags": [
+                    "Asignaciones Materia-Curso"
+                ],
+                "summary": "Obtener todas las asignaciones de materias a cursos",
+                "operationId": "4e1d550e6033dcc506386c20218618ca",
+                "responses": {
+                    "200": {
+                        "description": "Lista de asignaciones obtenida correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Asignaciones obtenidas correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "materias_id_materias": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "cursos_id_cursos": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "materia": {
+                                                        "properties": {
+                                                            "id_materia": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "nombre": {
+                                                                "type": "string",
+                                                                "example": "Matemáticas"
+                                                            },
+                                                            "estado": {
+                                                                "type": "string",
+                                                                "example": "A"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "curso": {
+                                                        "properties": {
+                                                            "id_curso": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "nombre": {
+                                                                "type": "string",
+                                                                "example": "Matemáticas Básicas"
+                                                            },
+                                                            "estado": {
+                                                                "type": "string",
+                                                                "example": "A"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron asignaciones"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Asignaciones Materia-Curso"
+                ],
+                "summary": "Crear una nueva asignación de materia a curso",
+                "operationId": "1ee0071440dbc69bf6ce578f8e21d140",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "materias_id_materias",
+                                    "cursos_id_cursos"
+                                ],
+                                "properties": {
+                                    "materias_id_materias": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "cursos_id_cursos": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Asignación creada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Asignación creada correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "materia_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "curso_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error de validación"
+                    },
+                    "409": {
+                        "description": "La materia ya está asignada a este curso"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/materia-curso/{cursoId}": {
+            "get": {
+                "tags": [
+                    "Asignaciones Materia-Curso"
+                ],
+                "summary": "Obtener todas las materias asignadas a un curso",
+                "operationId": "2625efdae397ee8554510cf9697344e0",
+                "parameters": [
+                    {
+                        "name": "cursoId",
+                        "in": "path",
+                        "description": "ID del curso",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Materias del curso obtenidas correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Materias del curso obtenidas correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "materias_id_materias": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "cursos_id_cursos": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "materia": {
+                                                        "properties": {
+                                                            "id_materia": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "nombre": {
+                                                                "type": "string",
+                                                                "example": "Matemáticas"
+                                                            },
+                                                            "estado": {
+                                                                "type": "string",
+                                                                "example": "A"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Curso no encontrado o sin materias asignadas"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/materia-curso/{id}": {
+            "put": {
+                "tags": [
+                    "Asignaciones Materia-Curso"
+                ],
+                "summary": "Actualizar una asignación existente",
+                "operationId": "6e5a203454bdc45d6f02862070cea557",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la asignación",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "materias_id_materias": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "cursos_id_cursos": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Asignación actualizada exitosamente"
+                    },
+                    "400": {
+                        "description": "Error de validación"
+                    },
+                    "404": {
+                        "description": "Asignación no encontrada"
+                    },
+                    "409": {
+                        "description": "La materia ya está asignada a este curso"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Asignaciones Materia-Curso"
+                ],
+                "summary": "Eliminar una asignación",
+                "operationId": "e5a899f3c34c14a74ec25ec8da7c4001",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la asignación",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Asignación eliminada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Asignación eliminada correctamente"
+                                        },
+                                        "errors": {
+                                            "type": "null"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": "1"
+                                                },
+                                                "deleted_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Asignación no encontrada"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Autenticación",
+            "description": "API Endpoints para la gestión de autenticación y usuarios"
+        },
+        {
+            "name": "Cursos",
+            "description": "API Endpoints para la gestión de cursos"
+        },
+        {
+            "name": "Docentes",
+            "description": "API Endpoints para la gestión de docentes"
+        },
+        {
+            "name": "Asignaciones Docente-Materia",
+            "description": "API Endpoints para la gestión de asignaciones entre docentes y materias"
+        },
+        {
+            "name": "Estudiantes",
+            "description": "API Endpoints para la gestión de estudiantes"
+        },
+        {
+            "name": "Asignaciones Estudiante-Curso",
+            "description": "API Endpoints para la gestión de asignaciones entre estudiantes y cursos"
+        },
+        {
+            "name": "Materias",
+            "description": "API Endpoints para la gestión de materias"
+        },
+        {
+            "name": "Asignaciones Materia-Curso",
+            "description": "API Endpoints para la gestión de asignaciones entre materias y cursos"
+        }
+    ]
+}

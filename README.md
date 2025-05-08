@@ -1,5 +1,9 @@
-# Descripcion
+# Descripción
 Proyecto de pruebas API Rest en Laravel 11
+
+# Documentación de la API (Swagger)
+http://server:port/api/documentation
+Ejemplo desarrollo: http://127.0.0.1:8000/api/documentation
 
 # Guía de Despliegue
 Esta guía cubre los procesos de despliegue para diferentes entornos tanto en desarrollo como producción.

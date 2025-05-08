@@ -7,9 +7,44 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Estudiante;
 
+/**
+ * @OA\Tag(
+ *     name="Estudiantes",
+ *     description="API Endpoints para la gestión de estudiantes"
+ * )
+ */
 class EstudianteController extends Controller
 {
-    /*----------- LISTAR ESTUDIANTES : GET -----------*/
+    /**
+     * @OA\Get(
+     *     path="/api/estudiantes",
+     *     summary="Obtener lista de estudiantes activos",
+     *     tags={"Estudiantes"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de estudiantes obtenida correctamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=200),
+     *             @OA\Property(property="message", type="string", example="Estudiantes obtenidos correctamente"),
+     *             @OA\Property(property="errors", type="null"),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id_estudiante", type="integer", example=1),
+     *                     @OA\Property(property="nombre", type="string", example="Juan"),
+     *                     @OA\Property(property="apellido", type="string", example="Pérez"),
+     *                     @OA\Property(property="dni", type="string", example="12345678"),
+     *                     @OA\Property(property="estado", type="string", example="A")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No se encontraron estudiantes"
+     *     )
+     * )
+     */
     public function index()
     {
         // Obtener todos los estudiantes activos ordenados por apellido y nombre
@@ -47,7 +82,46 @@ class EstudianteController extends Controller
         return response()->json($respuesta, 200);
     }
 
-    /*----------- CREAR ESTUDIANTE : POST -----------*/
+    /**
+     * @OA\Post(
+     *     path="/api/estudiantes",
+     *     summary="Crear un nuevo estudiante",
+     *     tags={"Estudiantes"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"nombre", "apellido", "dni", "estado"},
+     *             @OA\Property(property="nombre", type="string", example="Juan"),
+     *             @OA\Property(property="apellido", type="string", example="Pérez"),
+     *             @OA\Property(property="dni", type="string", example="12345678"),
+     *             @OA\Property(property="estado", type="string", example="A", enum={"A", "I"})
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Estudiante creado exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=201),
+     *             @OA\Property(property="message", type="string", example="Estudiante creado correctamente"),
+     *             @OA\Property(property="errors", type="null"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="nombre", type="string", example="Juan"),
+     *                 @OA\Property(property="apellido", type="string", example="Pérez"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error de validación"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error del servidor"
+     *     )
+     * )
+     */
     public function store(Request $request)
     {
         // Obtener y validar los datos del request
@@ -111,7 +185,41 @@ class EstudianteController extends Controller
         }
     }
 
-    /*----------- MOSTRAR ESTUDIANTE : GET -----------*/
+    /**
+     * @OA\Get(
+     *     path="/api/estudiantes/{id}",
+     *     summary="Obtener un estudiante específico",
+     *     tags={"Estudiantes"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del estudiante",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Estudiante encontrado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=200),
+     *             @OA\Property(property="message", type="string", example="Estudiante obtenido correctamente"),
+     *             @OA\Property(property="errors", type="null"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="id_estudiante", type="integer", example=1),
+     *                 @OA\Property(property="nombre", type="string", example="Juan"),
+     *                 @OA\Property(property="apellido", type="string", example="Pérez"),
+     *                 @OA\Property(property="dni", type="string", example="12345678"),
+     *                 @OA\Property(property="estado", type="string", example="A")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Estudiante no encontrado"
+     *     )
+     * )
+     */
     public function show(string $id)
     {
         // Obtener el estudiante activo por su ID
@@ -148,7 +256,46 @@ class EstudianteController extends Controller
         return response()->json($respuesta, 200);
     }
 
-    /*----------- ACTUALIZAR ESTUDIANTE : PUT -----------*/
+    /**
+     * @OA\Put(
+     *     path="/api/estudiantes/{id}",
+     *     summary="Actualizar un estudiante existente",
+     *     tags={"Estudiantes"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del estudiante",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="nombre", type="string", example="Juan"),
+     *             @OA\Property(property="apellido", type="string", example="Pérez"),
+     *             @OA\Property(property="dni", type="string", example="12345678"),
+     *             @OA\Property(property="estado", type="string", example="A", enum={"A", "I"})
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Estudiante actualizado exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error de validación"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Estudiante no encontrado"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error del servidor"
+     *     )
+     * )
+     */
     public function update(Request $request, string $id)
     {
         // Este controlador no permite el uso de PATCH
@@ -236,7 +383,43 @@ class EstudianteController extends Controller
         }
     }
 
-    /*----------- BORRADO LÓGICO : DELETE -----------*/
+    /**
+     * @OA\Delete(
+     *     path="/api/estudiantes/{id}",
+     *     summary="Eliminar un estudiante (borrado lógico)",
+     *     tags={"Estudiantes"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del estudiante",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Estudiante eliminado exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=200),
+     *             @OA\Property(property="message", type="string", example="Estudiante eliminado correctamente"),
+     *             @OA\Property(property="errors", type="null"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="nombre", type="string", example="Juan"),
+     *                 @OA\Property(property="apellido", type="string", example="Pérez"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Estudiante no encontrado"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error del servidor"
+     *     )
+     * )
+     */
     public function destroy(string $id)
     {
         // Obtener el estudiante activo por su ID
